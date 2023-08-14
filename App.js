@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
+import * as Linking from 'expo-linking';
 
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
@@ -50,10 +51,15 @@ function AuthenticatedStack() {
   );
 }
 
+
+const prefix = Linking.createURL('/');
 function Navigation() {
+  const linking = {
+    prefixes: [prefix],
+  }
   const authCtx = useContext(AuthContext);
   return (
-    <NavigationContainer>
+    <NavigationContainer linking={linking}>
       {
         authCtx.isAuthenticated ? <AuthenticatedStack />
           : <AuthStack />
